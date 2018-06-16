@@ -15,12 +15,6 @@ import java.util.Scanner;
 public class App {
 
     public static void main(String[] args) {
-        ProductRepository productRepository = new ProductRepositoryImpl();
-        ProducerRepository producerRepository = new ProducerRepositoryImpl();
-        OrderTableRepository orderTableRepository = new OrderTableRepositoryImpl();
-        CustomerRepository customerRepository = new CustomerRepositoryImpl();
-        CountryRepository countryRepository = new CountryRepositoryImpl();
-        CategoryRepository categoryRepository = new CategoryRepositoryImpl();
         Service service = new ServiceImpl();
 
         Scanner scanner = new Scanner(System.in);
@@ -81,20 +75,20 @@ public class App {
                                 case 1:
                                     System.out.println("Insert Category name: ");
                                     scanner.nextLine();
-                                    categoryRepository.addCategory(new Category(scanner.nextLine()));
+                                    service.addCategory(new Category(scanner.nextLine()));
                                     break;
                                 case 2:
                                     System.out.println("Insert Id and new name of Category: ");
                                     int id = scanner.nextInt();
                                     scanner.nextLine();
-                                    categoryRepository.updateCategory(new Category(id, scanner.nextLine()));
+                                    service.updateCategory(new Category(id, scanner.nextLine()));
                                     break;
                                 case 3:
                                     System.out.println("Insert Id of Category to delete: ");
-                                    categoryRepository.deleteCategory(scanner.nextInt());
+                                    service.deleteCategory(scanner.nextInt());
                                     break;
                                 case 4:
-                                    System.out.println(categoryRepository.findAll());
+                                    System.out.println(service.categoryFindAll());
                                     break;
                             }; break;
                         case 2:
@@ -108,20 +102,20 @@ public class App {
                                 case 1:
                                     System.out.println("Insert Country name: ");
                                     scanner.nextLine();
-                                    countryRepository.addCountry(new Country((scanner.nextLine())));
+                                    service.addCountry(new Country((scanner.nextLine())));
                                     break;
                                 case 2:
                                     System.out.println("Insert Id and new name of Country: ");
                                     int id = scanner.nextInt();
                                     scanner.nextLine();
-                                    countryRepository.updateCountry(new Country(id, scanner.nextLine()));
+                                    service.updateCountry(new Country(id, scanner.nextLine()));
                                     break;
                                 case 3:
                                     System.out.println("Insert Id of Country to delete: ");
-                                    countryRepository.deleteCountry(scanner.nextInt());
+                                    service.deleteCountry(scanner.nextInt());
                                     break;
                                 case 4:
-                                    System.out.println(countryRepository.findAll());
+                                    System.out.println(service.countryFindAll());
                                     break;
                             }; break;
                         case 3:
@@ -135,7 +129,7 @@ public class App {
                                 case 1:
                                     System.out.println("Insert Customer name, surname, age, countryId: ");
                                     scanner.nextLine();
-                                    customerRepository.addCustomer(new Customer(
+                                    service.addCustomer(new Customer(
                                             scanner.nextLine(),
                                             scanner.nextLine(),
                                             scanner.nextInt(),
@@ -145,7 +139,7 @@ public class App {
                                     System.out.println("Insert Id and new name of Customer: ");
                                     int id = scanner.nextInt();
                                     scanner.nextLine();
-                                    customerRepository.updateCustomer(new Customer(
+                                    service.updateCustomer(new Customer(
                                             id,
                                             scanner.nextLine(),
                                             scanner.nextLine(),
@@ -154,10 +148,10 @@ public class App {
                                     break;
                                 case 3:
                                     System.out.println("Insert Id of Customer to delete: ");
-                                    customerRepository.deleteCustomer(scanner.nextInt());
+                                    service.deleteCustomer(scanner.nextInt());
                                     break;
                                 case 4:
-                                    System.out.println(customerRepository.findAll());
+                                    System.out.println(service.customerFindAll());
                                     break;
                             }; break;
                         case 4:
@@ -171,7 +165,7 @@ public class App {
                                 case 1:
                                     System.out.println("Insert order: productId, customerId, quantity, discount: ");
                                     scanner.nextLine();
-                                    orderTableRepository.addOrder(new OrderTable(
+                                    service.addOrder(new OrderTable(
                                             scanner.nextInt(),
                                             scanner.nextInt(),
                                             scanner.nextInt(),
@@ -183,7 +177,7 @@ public class App {
                                     System.out.println("Insert Id and new order: productId, customerId, quantity, discount: ");
                                     int id = scanner.nextInt();
                                     scanner.nextLine();
-                                    orderTableRepository.updateOrde(new OrderTable(
+                                    service.updateOrde(new OrderTable(
                                             id,
                                             scanner.nextInt(),
                                             scanner.nextInt(),
@@ -193,10 +187,10 @@ public class App {
                                     ));
                                 case 3:
                                     System.out.println("Insert Id of order to delete: ");
-                                    orderTableRepository.deleteOrder(scanner.nextInt());
+                                    service.deleteOrder(scanner.nextInt());
                                     break;
                                 case 4:
-                                    System.out.println(orderTableRepository.findAll());
+                                    System.out.println(service.orderTableFindAll());
                                     break;
                             }; break;
                         case 5:
@@ -210,7 +204,7 @@ public class App {
                                 case 1:
                                     System.out.println("Insert Producer: name, budget, countryId: ");
                                     scanner.nextLine();
-                                    producerRepository.addProducer(new Producer(
+                                    service.addProducer(new Producer(
                                             scanner.nextLine(),
                                             BigDecimal.valueOf(scanner.nextDouble()),
                                             scanner.nextInt()
@@ -220,7 +214,7 @@ public class App {
                                     System.out.println("Insert Id and new Producer: name, budget, countryId: ");
                                     int id = scanner.nextInt();
                                     scanner.nextLine();
-                                    producerRepository.updateProducer(new Producer(
+                                    service.updateProducer(new Producer(
                                             id,
                                             scanner.nextLine(),
                                             BigDecimal.valueOf(scanner.nextDouble()),
@@ -228,10 +222,10 @@ public class App {
                                     ));
                                 case 3:
                                     System.out.println("Insert Id of Producer to delete: ");
-                                    producerRepository.deleteProducer(scanner.nextInt());
+                                    service.deleteProducer(scanner.nextInt());
                                     break;
                                 case 4:
-                                    System.out.println(producerRepository.findAll());
+                                    System.out.println(service.producerFindAll());
                                     break;
                             }; break;
                         case 6:
@@ -245,7 +239,7 @@ public class App {
                                 case 1:
                                     System.out.println("Insert Product: name, price, categoryId, producerId: ");
                                     scanner.nextLine();
-                                    productRepository.addProduct(new Product(
+                                    service.addProduct(new Product(
                                             scanner.nextLine(),
                                             BigDecimal.valueOf(scanner.nextDouble()),
                                             scanner.nextInt(),
@@ -256,7 +250,7 @@ public class App {
                                     System.out.println("Insert Id and new Product: name, price, categoryId, producerId: ");
                                     int id = scanner.nextInt();
                                     scanner.nextLine();
-                                    productRepository.updateProduct(new Product(
+                                    service.updateProduct(new Product(
                                             id,
                                             scanner.nextLine(),
                                             BigDecimal.valueOf(scanner.nextDouble()),
@@ -266,10 +260,10 @@ public class App {
                                     break;
                                 case 3:
                                     System.out.println("Insert Id of Product to delete: ");
-                                    productRepository.deleteProduct(scanner.nextInt());
+                                    service.deleteProduct(scanner.nextInt());
                                     break;
                                 case 4:
-                                    System.out.println(productRepository.findAll());
+                                    System.out.println(service.productFindAll());
                                     break;
                             }; break;
                         default:

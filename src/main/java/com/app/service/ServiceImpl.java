@@ -27,7 +27,6 @@ public class ServiceImpl implements Service {
 
     Connection connection = DbConnection.getInstance().getConnection();
 
-//    2. Wypisz nazwe producenta, ktory sprzedal najwiecej produktow
 
     @Override
     public Producer producerOfMaxQuantityOfProducts() {
@@ -52,8 +51,6 @@ public class ServiceImpl implements Service {
 
     }
 
-//    3. Wykonaj zestawienie, w ktorym umiescisz nazwe producenta i srednia cene sprzedanych przez niego produtkow po uwzglednieniu znizek
-
     @Override
     public Map<String, Double> producerListAvgPricesWithDiscounts() {
 
@@ -71,8 +68,6 @@ public class ServiceImpl implements Service {
                                         - orderTableRepository.findOneById(o.getProductId()).orElseThrow(NullPointerException::new).getDiscount())).getAverage()
                 ));
     }
-
-//    Podaj nazwe kraju, z ktorego pochodzi klient, ktory dokonal lacznie zakupow najwiekszej kwocie
 
     @Override
     public Country countryOfCustomerWithMaxOrderPrice() {
@@ -96,8 +91,6 @@ public class ServiceImpl implements Service {
         return maxCountry;
     }
 
-//    5. Wykonaj zestawienie w ktorym podasz ile produktow kupowano w poszczegolnych miesiacach
-
     @Override
     public Map<String, Long> quantityOfProductsPerMonth() {
 
@@ -111,9 +104,6 @@ public class ServiceImpl implements Service {
 
     }
 
-//    6. Wykonaj zestawienie w ktorym podasz ile stracili poszczegolni producenci na sprzedanych priduktach w zwiazku z zastosowanymi znizkami
-
-
     @Override
     public Map<String, Long> producerListDiscountLosses() {
 
@@ -126,9 +116,6 @@ public class ServiceImpl implements Service {
                         o -> producerRepository.findOneById(o.getKey()).orElseThrow(NullPointerException::new).getName(),
                         o -> o.getValue().stream().collect(Collectors.summarizingInt(p -> p.getQuantity() * p.getDiscount())).getSum()));
     }
-
-//    7. Podaj imiona i nazwieska osob, ktore dokonaly zakupow na kwote co najmniej x (x podajesz samodzielnie). Posortuj
-// zestawienie malejaco wedlug wieku, w przypadku takich samych wieków posortuj alfabetycznie najpierw po imieniu potem po nazwisku.
 
     @Override
     public Map<String, Double> customerOrderX(double x) {
@@ -145,13 +132,130 @@ public class ServiceImpl implements Service {
                 .entrySet()
                 .stream()
                 .filter(p -> p.getValue() >= x)
-//                  TO DO sortowanie
-//                .sorted(Comparator.comparing(p -> customerRepository.findOneById(p.getKey()).orElseThrow(NullPointerException::new).getAge()))
-//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
                 .collect(Collectors.toMap(
                         p -> customerRepository.findOneById(p.getKey()).orElseThrow(NullPointerException::new).getName(),
                         p -> p.getValue()
                 ));
+    }
+
+    @Override
+    public void addCategory(Category category) {
+        categoryRepository.addCategory(category);
+    }
+
+    @Override
+    public void updateCategory(Category category) {
+        categoryRepository.addCategory(category);
+    }
+
+    @Override
+    public void deleteCategory(Integer id) {
+        categoryRepository.deleteCategory(id);
+    }
+
+    @Override
+    public List<Category> categoryFindAll() {
+        return categoryRepository.findAll();
+    }
+
+    @Override
+    public void addCountry(Country country) {
+        countryRepository.addCountry(country);
+    }
+
+    @Override
+    public void updateCountry(Country country) {
+        countryRepository.updateCountry(country);
+    }
+
+    @Override
+    public void deleteCountry(Integer id) {
+        countryRepository.deleteCountry(id);
+    }
+
+    @Override
+    public List<Country> countryFindAll() {
+        return countryRepository.findAll();
+    }
+
+    @Override
+    public void addCustomer(Customer customer) {
+        customerRepository.addCustomer(customer);
+    }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+        customerRepository.updateCustomer(customer);
+    }
+
+    @Override
+    public void deleteCustomer(Integer id) {
+        customerRepository.deleteCustomer(id);
+    }
+
+    @Override
+    public List<Customer> customerFindAll() {
+        return customerRepository.findAll();
+    }
+
+    @Override
+    public void addOrder(OrderTable orderTable) {
+        orderTableRepository.addOrder(orderTable);
+    }
+
+    @Override
+    public void updateOrde(OrderTable orderTable) {
+        orderTableRepository.updateOrde(orderTable);
+    }
+
+    @Override
+    public void deleteOrder(Integer id) {
+        orderTableRepository.deleteOrder(id);
+    }
+
+    @Override
+    public List<OrderTable> orderTableFindAll() {
+        return orderTableRepository.findAll();
+    }
+
+    @Override
+    public void addProducer(Producer producer) {
+        producerRepository.addProducer(producer);
+    }
+
+    @Override
+    public void updateProducer(Producer producer) {
+        producerRepository.updateProducer(producer);
+    }
+
+    @Override
+    public void deleteProducer(Integer id) {
+        producerRepository.deleteProducer(id);
+    }
+
+    @Override
+    public List<Producer> producerFindAll() {
+        return producerRepository.findAll();
+    }
+
+    @Override
+    public void addProduct(Product product) {
+        productRepository.addProduct(product);
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        productRepository.updateProduct(product);
+    }
+
+    @Override
+    public void deleteProduct(Integer id) {
+        productRepository.deleteProduct(id);
+    }
+
+    @Override
+    public List<Product> productFindAll() {
+        return productRepository.findAll();
     }
 
 }
