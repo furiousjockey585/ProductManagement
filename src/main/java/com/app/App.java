@@ -7,12 +7,14 @@ import com.app.service.ServiceImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args) {
-
         ProductRepository productRepository = new ProductRepositoryImpl();
         ProducerRepository producerRepository = new ProducerRepositoryImpl();
         OrderTableRepository orderTableRepository = new OrderTableRepositoryImpl();
@@ -24,39 +26,270 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         int opcja;
 
-        System.out.println("Podaj numer opcji");
-        System.out.println("1. Producent, ktory sprzedał najwiecej produktow");
-        System.out.println("2. Zestawienie - producent i srednia cena sprzedanych przez niego produtkow po uwzglednieniu zniżek");
-        System.out.println("3. Kraj, z którego pochodzi klient, ktory dokonał łącznie zakupow o najwiekszej kwocie");
-        System.out.println("4. Zestawienie - ilość produktow kupowanych w poszczegolnych miesiacach");
-        System.out.println("5. Zestawienie - straty poszczegolnych producentów na sprzedanych produktach w związku z zastosowanymi zniżkami");
-        System.out.println("6. Imiona i nazwiska osob, ktore dokonaly zakupow na kwote co najmniej x ");
-        opcja = scanner.nextInt();
-
-        switch (opcja) {
-            case 1:
-                System.out.println(service.producerOfMaxQuantityOfProducts());
-                break;
-            case 2:
-                System.out.println(service.producerListAvgPricesWithDiscounts());
-                break;
-            case 3:
-                System.out.println(service.countryOfCustomerWithMaxOrderPrice());
-                break;
-            case 4:
-                System.out.println(service.quantityOfProductsPerMonth());
-                break;
-            case 5:
-                System.out.println(service.producerListDiscountLosses());
-                break;
-            case 6:
-                System.out.println("Podaj kwotę: ");
-                double kw = scanner.nextDouble();
-                System.out.println(service.customerOrderX(kw));
-                break;
-            default:
-                System.out.println("Błędna opcja");
-        }
+        do {
+            System.out.println("PRODUCTS MANAGEMENT");
+            System.out.println("Choose number of option: ");
+            System.out.println("1. Producer who sold the most of products");
+            System.out.println("2. List of producers with average prices of sold products (discounts included)");
+            System.out.println("3. Country of a client who had the purchase with a highest overall price");
+            System.out.println("4. List of months with a quantity of products which was sold");
+            System.out.println("5. List of producer losses due to discounts");
+            System.out.println("6. List of names of a people who purchased products with a price at least (your value)");
+            System.out.println("7. Managing database (adding, deleting, updating, viewing)");
+            System.out.println("8. Quit");
+            opcja = scanner.nextInt();
+            System.out.println();
+            switch (opcja) {
+                case 1:
+                    System.out.println(service.producerOfMaxQuantityOfProducts());
+                    break;
+                case 2:
+                    System.out.println(service.producerListAvgPricesWithDiscounts());
+                    break;
+                case 3:
+                    System.out.println(service.countryOfCustomerWithMaxOrderPrice());
+                    break;
+                case 4:
+                    System.out.println(service.quantityOfProductsPerMonth());
+                    break;
+                case 5:
+                    System.out.println(service.producerListDiscountLosses());
+                    break;
+                case 6:
+                    System.out.println("Give a price: ");
+                    double kw = scanner.nextDouble();
+                    System.out.println(service.customerOrderX(kw));
+                    break;
+                case 7:
+                    System.out.println("Choose your option: ");
+                    System.out.println("1.Category");
+                    System.out.println("2.Country");
+                    System.out.println("3.Customer");
+                    System.out.println("4.Order Table");
+                    System.out.println("5.Producer");
+                    System.out.println("6.Product");
+                    opcja = scanner.nextInt();
+                    switch (opcja) {
+                        case 1:
+                            System.out.println("Choose option: ");
+                            System.out.println("1. Add Category");
+                            System.out.println("2. Update Category");
+                            System.out.println("3. Delete Category");
+                            System.out.println("4. View Category");
+                            opcja = scanner.nextInt();
+                            switch (opcja) {
+                                case 1:
+                                    System.out.println("Insert Category name: ");
+                                    scanner.nextLine();
+                                    categoryRepository.addCategory(new Category(scanner.nextLine()));
+                                    break;
+                                case 2:
+                                    System.out.println("Insert Id and new name of Category: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    categoryRepository.updateCategory(new Category(id, scanner.nextLine()));
+                                    break;
+                                case 3:
+                                    System.out.println("Insert Id of Category to delete: ");
+                                    categoryRepository.deleteCategory(scanner.nextInt());
+                                    break;
+                                case 4:
+                                    System.out.println(categoryRepository.findAll());
+                                    break;
+                            }; break;
+                        case 2:
+                            System.out.println("Choose option: ");
+                            System.out.println("1. Add Country");
+                            System.out.println("2. Update Country");
+                            System.out.println("3. Delete Country");
+                            System.out.println("4. View Countries");
+                            opcja = scanner.nextInt();
+                            switch (opcja) {
+                                case 1:
+                                    System.out.println("Insert Country name: ");
+                                    scanner.nextLine();
+                                    countryRepository.addCountry(new Country((scanner.nextLine())));
+                                    break;
+                                case 2:
+                                    System.out.println("Insert Id and new name of Country: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    countryRepository.updateCountry(new Country(id, scanner.nextLine()));
+                                    break;
+                                case 3:
+                                    System.out.println("Insert Id of Country to delete: ");
+                                    countryRepository.deleteCountry(scanner.nextInt());
+                                    break;
+                                case 4:
+                                    System.out.println(countryRepository.findAll());
+                                    break;
+                            }; break;
+                        case 3:
+                            System.out.println("Choose option: ");
+                            System.out.println("1. Add Customer");
+                            System.out.println("2. Update Customer");
+                            System.out.println("3. Delete Customer");
+                            System.out.println("4. View Customers");
+                            opcja = scanner.nextInt();
+                            switch (opcja) {
+                                case 1:
+                                    System.out.println("Insert Customer name, surname, age, countryId: ");
+                                    scanner.nextLine();
+                                    customerRepository.addCustomer(new Customer(
+                                            scanner.nextLine(),
+                                            scanner.nextLine(),
+                                            scanner.nextInt(),
+                                            scanner.nextInt()));
+                                    break;
+                                case 2:
+                                    System.out.println("Insert Id and new name of Customer: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    customerRepository.updateCustomer(new Customer(
+                                            id,
+                                            scanner.nextLine(),
+                                            scanner.nextLine(),
+                                            scanner.nextInt(),
+                                            scanner.nextInt()));
+                                    break;
+                                case 3:
+                                    System.out.println("Insert Id of Customer to delete: ");
+                                    customerRepository.deleteCustomer(scanner.nextInt());
+                                    break;
+                                case 4:
+                                    System.out.println(customerRepository.findAll());
+                                    break;
+                            }; break;
+                        case 4:
+                            System.out.println("Choose option: ");
+                            System.out.println("1. Add Order");
+                            System.out.println("2. Update Order");
+                            System.out.println("3. Delete Order");
+                            System.out.println("4. View Orders");
+                            opcja = scanner.nextInt();
+                            switch (opcja) {
+                                case 1:
+                                    System.out.println("Insert order: productId, customerId, quantity, discount: ");
+                                    scanner.nextLine();
+                                    orderTableRepository.addOrder(new OrderTable(
+                                            scanner.nextInt(),
+                                            scanner.nextInt(),
+                                            scanner.nextInt(),
+                                            scanner.nextInt(),
+                                            LocalDate.now()
+                                    ));
+                                    break;
+                                case 2:
+                                    System.out.println("Insert Id and new order: productId, customerId, quantity, discount: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    orderTableRepository.updateOrde(new OrderTable(
+                                            id,
+                                            scanner.nextInt(),
+                                            scanner.nextInt(),
+                                            scanner.nextInt(),
+                                            scanner.nextInt(),
+                                            LocalDate.now()
+                                    ));
+                                case 3:
+                                    System.out.println("Insert Id of order to delete: ");
+                                    orderTableRepository.deleteOrder(scanner.nextInt());
+                                    break;
+                                case 4:
+                                    System.out.println(orderTableRepository.findAll());
+                                    break;
+                            }; break;
+                        case 5:
+                            System.out.println("Choose option: ");
+                            System.out.println("1. Add Producer");
+                            System.out.println("2. Update Producer");
+                            System.out.println("3. Delete Producer");
+                            System.out.println("4. View Producers");
+                            opcja = scanner.nextInt();
+                            switch (opcja) {
+                                case 1:
+                                    System.out.println("Insert Producer: name, budget, countryId: ");
+                                    scanner.nextLine();
+                                    producerRepository.addProducer(new Producer(
+                                            scanner.nextLine(),
+                                            BigDecimal.valueOf(scanner.nextDouble()),
+                                            scanner.nextInt()
+                                    ));
+                                    break;
+                                case 2:
+                                    System.out.println("Insert Id and new Producer: name, budget, countryId: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    producerRepository.updateProducer(new Producer(
+                                            id,
+                                            scanner.nextLine(),
+                                            BigDecimal.valueOf(scanner.nextDouble()),
+                                            scanner.nextInt()
+                                    ));
+                                case 3:
+                                    System.out.println("Insert Id of Producer to delete: ");
+                                    producerRepository.deleteProducer(scanner.nextInt());
+                                    break;
+                                case 4:
+                                    System.out.println(producerRepository.findAll());
+                                    break;
+                            }; break;
+                        case 6:
+                            System.out.println("Choose option: ");
+                            System.out.println("1. Add Product");
+                            System.out.println("2. Update Product");
+                            System.out.println("3. Delete Product");
+                            System.out.println("4. View Products");
+                            opcja = scanner.nextInt();
+                            switch (opcja) {
+                                case 1:
+                                    System.out.println("Insert Product: name, price, categoryId, producerId: ");
+                                    scanner.nextLine();
+                                    productRepository.addProduct(new Product(
+                                            scanner.nextLine(),
+                                            BigDecimal.valueOf(scanner.nextDouble()),
+                                            scanner.nextInt(),
+                                            scanner.nextInt()
+                                    ));
+                                    break;
+                                case 2:
+                                    System.out.println("Insert Id and new Product: name, price, categoryId, producerId: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    productRepository.updateProduct(new Product(
+                                            id,
+                                            scanner.nextLine(),
+                                            BigDecimal.valueOf(scanner.nextDouble()),
+                                            scanner.nextInt(),
+                                            scanner.nextInt()
+                                    ));
+                                    break;
+                                case 3:
+                                    System.out.println("Insert Id of Product to delete: ");
+                                    productRepository.deleteProduct(scanner.nextInt());
+                                    break;
+                                case 4:
+                                    System.out.println(productRepository.findAll());
+                                    break;
+                            }; break;
+                        default:
+                            System.out.println("Wrong number");
+                    };
+                    break;
+                case 8: break;
+                default:
+                    System.out.println("Wrong number");
+            }
+            if (opcja !=8) {
+                System.out.println();
+                System.out.println("Zakończyć? (T/N) ");
+                scanner.nextLine();
+                String s = scanner.nextLine();
+                if (s.matches("[T|t]")) {
+                    opcja = 8;
+                }
+            }
+        }while (opcja != 8);
 
     }
 }

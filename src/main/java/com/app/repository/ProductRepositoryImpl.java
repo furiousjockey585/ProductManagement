@@ -39,6 +39,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             preparedStatement.setBigDecimal(2, product.getPrice());
             preparedStatement.setInt(3, product.getCategoryId());
             preparedStatement.setInt(4, product.getProducerId());
+            preparedStatement.setInt(5, product.getId());
             preparedStatement.execute();
         } catch (Exception e) {
             throw new MyException("Error - updateProduct", LocalDate.now());

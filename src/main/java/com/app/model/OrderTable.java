@@ -81,14 +81,12 @@ public class OrderTable {
 
     @Override
     public String toString() {
-        return "OrderTable{" +
-                "id=" + id +
-                ", productId=" + productId +
-                ", customerId=" + customerId +
-                ", quantity=" + quantity +
-                ", discount=" + discount +
-                ", date=" + date +
-                '}';
+        return "OrderTable{id = " + id +
+                ", productId = " + productId +
+                ", customerId = " + customerId +
+                ", quantity = " + quantity +
+                ", discount = " + discount +
+                ", date = " + date + "}";
     }
 
     @Override

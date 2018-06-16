@@ -22,6 +22,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             preparedStatement.setString(1, category.getName());
             preparedStatement.execute();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new MyException("Error - addCategory", LocalDate.now());
         }
     }

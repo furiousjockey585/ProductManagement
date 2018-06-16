@@ -59,12 +59,10 @@ public class Producer {
 
     @Override
     public String toString() {
-        return "Producer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", budget=" + budget +
-                ", countryId=" + countryId +
-                '}';
+        return "Producer{id = " + id +
+                ", name = " + name +
+                ", budget = " + budget +
+                ", countryId = " + countryId + "}";
     }
 
     @Override
