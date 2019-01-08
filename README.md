@@ -1,1 +1,1 @@
-JDBC connection Product Management Project
+Product Management Project (JDBC)
